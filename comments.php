@@ -1,3 +1,5 @@
+<?php include_once('db.php');
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,7 +26,7 @@
 <?php include_once "./template/header.php" ?>
 </header>
 <main>
-    
+
 <?php include_once "./template/sidebar.php" ?>
 </main>
 <?php include_once "./template/footer.php"?>
