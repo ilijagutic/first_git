@@ -1,12 +1,14 @@
 <?php include_once('db.php');
 ?>
 <?php
-    $sql = "SELECT * FROM posts ORDER BY created_at DESC";
-    $statement = $connection->prepare($sql);
+$sql = "SELECT p.id, p.title, p.body, p.author_id, p.created_at, a.ime, a.prezime
+from posts as p 
+inner join author as a on p.author_id = a.id
+order by p.created_at DESC";
 
-            $statement->execute();
-            $statement->setFetchMode(PDO::FETCH_ASSOC);
-            $posts = fetch($sql, $connection, true)
+
+$posts = fetch($sql, $connection, true);
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -45,7 +47,7 @@
             <div class="blog-post">
 
                 <a href="single-post.php?post_id=<?php echo ($post['id']) ?>"><h2 class="blog-post-title title"><?php echo ($post['title']) ?></h2></a>
-                <p class="blog-post-meta"><?php echo ($post['created_at']) ?> by <a href="#"><?php echo ($post['author']) ?></a></p>
+                <p class="blog-post-meta"><?php echo ($post['created_at']) ?> by <?php echo ($post['ime']) ?> <?php echo($post['prezime']) ?></p>
                 <p><?php echo ($post['body']) ?></p>
                 </div><!-- /.blog-post -->
                 <?php

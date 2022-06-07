@@ -1,24 +1,19 @@
 <?php
-$sql = "SELECT * FROM comments WHERE post_id = {$_GET['post_id']}";
-$statement = $connection->prepare($sql);
-$statement->execute();
-$statement->setFetchMode(PDO::FETCH_ASSOC);
-$comments = fetch($sql, $connection, true)
+$sql_comments = "SELECT c.id, c.text, a.ime, a.prezime
+FROM comments AS c 
+inner join author as a on c.id = a.id
+WHERE c.post_id = {$_GET['post_id']}";
 
+$comments = fetch($sql_comments, $connection, true);
 ?>
 <div>
     <ul class="comments-list">
         <?php foreach ($comments as  $comment) { ?>
-            <h4>Komentari:</h4>
-
-            <?php
-                $sqlComment = "SELECT author,text FROM comments WHERE id = '{$comment['id']}'";
-                $comm = fetch($sqlComment, $connection);
-                ?>
+            <h5>Komentar :</h5>
             <li>
-                <p><?php echo $comm['text'] ?></p>
+                <p><?php echo $comment['text'] ?></p>
 
-                <h6>komentarisao : <?php echo ($comm['author']) ?></h6>
+                <h7>komentarisao : <?php echo ($comment['ime']) ?> <?php echo ($comment['prezime'])?></h7>
             </li>
             <hr />
         <?php } ?>

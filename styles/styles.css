@@ -9,7 +9,7 @@ html {
 .title {
     color: #b34848;
 }
-.blog-post-title:hover {
+.title , .blog-post-title:hover {
     text-decoration: underline;
 
 }

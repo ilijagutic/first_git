@@ -1,13 +1,16 @@
 <?php include_once('db.php');
 ?>
-<?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'];
+<?php 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $body = $_POST['body'];
-    $author = $_POST['author'];
-    $sql = "INSERT INTO posts (title, body, author, created_at) VALUES ('$title', '$body', '$author', NOW())";
+    $title = $_POST['title'];
+    $date = date("Y-m-d h:i");
+    $sql = "INSERT INTO posts (
+            title, body, created_at, author_id)
+            VALUES ('$title', '$body','$date',1)";
     $statement = $connection->prepare($sql);
     $statement->execute();
-    header('location: posts.php');
+    header("Location: posts.php");
 };
 ?>
 <!doctype html>
@@ -47,12 +50,13 @@
                         <label>Sadrzaj</label>
                         <textarea class="form-control" name="body" rows="10" required></textarea>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Autor</label>
                         <textarea class="form-control" name="author" rows="1" required placeholder="ime i prezime"></textarea>
-                    </div>
+                    </div> -->
                     <button class="btn btn-primary" type="submit">Dodaj post!</button>
                 </form>
+
             </div><!-- /.blog-main -->
             <?php include_once "./template/sidebar.php" ?>
             <!-- /.blog-sidebar -->

@@ -2,12 +2,13 @@
 ?>
 <?php
 if (isset($_GET['post_id'])) {
-  $sql = "SELECT * FROM posts WHERE id = {$_GET['post_id']}";
-  $statement = $connection->prepare($sql);
-  $statement->execute();
-  $statement->setFetchMode(PDO::FETCH_ASSOC);
+$sql = "SELECT 
+p.id, p.title, p.body, p.created_at , a.ime, a.prezime
+FROM posts as p INNER JOIN author as a
+WHERE p.id = {$_GET['post_id']}";
 
-  $singlePost = fetch($sql, $connection);
+$singlePost = fetch($sql, $connection);
+
 }
 ?>
 <!doctype html>
@@ -39,7 +40,7 @@ if (isset($_GET['post_id'])) {
         <div class="col-sm-8 blog-main">
             <div class="blog-post">
                 <h2 class="blog-post-title title"><?php echo ($singlePost['title']) ?></h2>
-                <p class="blog-post-meta"><?php echo ($singlePost['created_at']) ?> by <a href="#"><?php echo ($singlePost['author']) ?></a></p>
+                <p class="blog-post-meta"><?php echo ($singlePost['created_at']) ?> by <?php echo ($singlePost['ime']) ?> <?php echo($singlePost['prezime']) ?></p>
 
                 <p><?php echo ($singlePost['body']) ?></p>
 
