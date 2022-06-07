@@ -1,5 +1,15 @@
 <?php include_once('db.php');
 ?>
+<?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'];
+    $body = $_POST['body'];
+    $author = $_POST['author'];
+    $sql = "INSERT INTO posts (title, body, author, created_at) VALUES ('$title', '$body', '$author', NOW())";
+    $statement = $connection->prepare($sql);
+    $statement->execute();
+    header('location: posts.php');
+};
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,12 +32,11 @@
 
 <body>
 
-<header>
 <?php include_once "./template/header.php" ?>
     <main role="main" class="container">
         <div class="row">
             <div class="col-sm-8 blog-main">
-                <h2 class="title">Create Post</h2>
+                <h2 class="title">Napravi novi post </h2>
                 <form class="form" method="POST" action="create-post.php">
 
                     <div class="form-group">
@@ -36,9 +45,13 @@
                     </div>
                     <div class="form-group">
                         <label>Sadrzaj</label>
-                        <textarea class="form-control" name="content" rows="10" required></textarea>
+                        <textarea class="form-control" name="body" rows="10" required></textarea>
                     </div>
-                    <button class="btn btn-primary">Dodaj post!</button>
+                    <div class="form-group">
+                        <label>Autor</label>
+                        <textarea class="form-control" name="author" rows="1" required placeholder="ime i prezime"></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Dodaj post!</button>
                 </form>
             </div><!-- /.blog-main -->
             <?php include_once "./template/sidebar.php" ?>

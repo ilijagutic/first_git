@@ -7,9 +7,10 @@ $comments = fetch($sql, $connection, true)
 
 ?>
 <div>
-    <h4>Komentari:</h4>
     <ul class="comments-list">
         <?php foreach ($comments as  $comment) { ?>
+            <h4>Komentari:</h4>
+
             <?php
                 $sqlComment = "SELECT author,text FROM comments WHERE id = '{$comment['id']}'";
                 $comm = fetch($sqlComment, $connection);
