@@ -9,7 +9,17 @@ html {
 .title {
     color: #b34848;
 }
-.title , .blog-post-title:hover {
+.blog-post-title:hover {
     text-decoration: underline;
 
+}
+.musko {
+    color: blue;
+}
+
+.zensko {
+    color: pink;
+}
+.gender-wrapper {
+    width: 20px;
 }

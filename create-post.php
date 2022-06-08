@@ -1,17 +1,22 @@
 <?php include_once('db.php');
 ?>
 <?php 
+$sqlAuthor = "SELECT id, ime, prezime, pol FROM author";
+$authors = fetch($sqlAuthor, $connection, true);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $body = $_POST['body'];
     $title = $_POST['title'];
+    $authorId = $_POST['author'];
     $date = date("Y-m-d h:i");
     $sql = "INSERT INTO posts (
             title, body, created_at, author_id)
-            VALUES ('$title', '$body','$date',1)";
+            VALUES ('$title', '$body','$date','$authorId')";
     $statement = $connection->prepare($sql);
     $statement->execute();
     header("Location: posts.php");
 };
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -41,7 +46,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="col-sm-8 blog-main">
                 <h2 class="title">Napravi novi post </h2>
                 <form class="form" method="POST" action="create-post.php">
+                <div class="form-group">
+                    <label for="author">Odaberite autora posta : </label>
+                        <select name="author" id="author">
+                            <?php foreach($authors as $author) {
+                                ?> <option  class="<?php echo ($author['pol']) ?>" value="<?php echo ($author['id']) ?>">
+                                        <?php
+                                        echo ($author['ime']) ?> <?php echo ($author['prezime']); ?>
+                                    </option>
+                            <?php } ?>
+                        </select>
 
+                    </div>
                     <div class="form-group">
                         <label>Naslov</label>
                         <input class="form-control" type="text" name="title" required>
@@ -50,10 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label>Sadrzaj</label>
                         <textarea class="form-control" name="body" rows="10" required></textarea>
                     </div>
-                    <!-- <div class="form-group">
-                        <label>Autor</label>
-                        <textarea class="form-control" name="author" rows="1" required placeholder="ime i prezime"></textarea>
-                    </div> -->
                     <button class="btn btn-primary" type="submit">Dodaj post!</button>
                 </form>
 
